@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+</head>
+<body>
+    <h3>Patience Index Result:</h3>
+    <div>
+        <ul>
+            <li><span class="low">🔴 Low Patience Index:</span> If the total amount is less than $100</li>
+            <li><span class="medium">🟠 Medium Patience Index:</span> If the total amount is between $100 and $500</li>
+            <li><span class="high">🟢 High Patience Index:</span> If the total amount is over $500</li>
+        </ul>
+    </div>
+    <p>Child ID: {{ child_id }}</p>
+    <p>Patience Index: {{ patience_index }}</p>
+    
+    {% if patience_index == 'Low' %}
+    <p class="low">🔴 Low Patience Index</p>
+    {% elif patience_index == 'Medium' %}
+    <p class="medium">🟠 Medium Patience Index</p>
+    {% elif patience_index == 'High' %}
+    <p class="high">🟢 High Patience Index</p>
+    {% else %}
+    <p>Patience index could not be determined.</p>
+    {% endif %}
+    
+</body>
+</html>

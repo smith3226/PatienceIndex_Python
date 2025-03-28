@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patience Index Prediction</title>
+    <style>
+        .low { color: red; }
+        .medium { color: orange; }
+        .high { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Predict Patience Index</h1>
+
+    <!-- Displaying the Information about the ranges with emojis -->
+    <div>
+        <h2>How is Patience Index Calculated?</h2>
+        <p>The Patience Index is determined based on the total amount of transactions:</p>
+        <ul>
+            <li><span class="low">🔴 Low Patience Index:</span> If the total amount is less than $100</li>
+            <li><span class="medium">🟠 Medium Patience Index:</span> If the total amount is between $100 and $500</li>
+            <li><span class="high">🟢 High Patience Index:</span> If the total amount is over $500</li>
+        </ul>
+    </div>
+
+    <!-- Form for user to input the Child ID -->
+    <form action="/predict" method="POST">
+        <label for="child_id">Child ID:</label>
+        <input type="number" id="child_id" name="child_id" required>
+        <button type="submit">Predict</button>
+    </form>
+    
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Quiz{% endblock %}
+
+{% block content %}
+<h2 style="color: #007bff;">Submit Quiz</h2>
+{% if error %}
+<div class="alert alert-danger" style="background-color: #ffcccc; border-color: #ff0000; color: #ff0000;">{{ error }}</div>
+{% endif %}
+{% if success %}
+<div class="alert alert-success" style="background-color: #ffff00; border-color: #ffff00; color: #000000;">{{ success }}</div>
+{% endif %}
+<form method="POST">
+    <div class="mb-3">
+        <label for="user_id" class="form-label" >User ID</label>
+        <input type="number" class="form-control" id="user_id" name="user_id" required>
+    </div>
+    <div class="mb-3">
+        <label for="question1" class="form-label" >Question 1: You see a cool new avatar. Do you buy it now or wait until the next Flip Store sale?</label>
+        <select class="form-select" id="question1" name="question1" required>
+            <option value="">Choose...</option>
+            <option value="buy now">Buy now</option>
+            <option value="wait">Wait</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="question2" class="form-label" >Question 2: You can get 20 Flip Dollars for watching an ad or 100 Flip Dollars for completing a 3-day streak. What do you choose?</label>
+        <select class="form-select" id="question2" name="question2" required>
+            <option value="">Choose...</option>
+            <option value="ad">Watch ad</option>
+            <option value="streak">Complete streak</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="question3" class="form-label">Question 3: You have 500 Flip Dollars. Do you buy a fun item now or invest in a savings goal that doubles in 7 days?</label>
+        <select class="form-select" id="question3" name="question3" required>
+            <option value="">Choose...</option>
+            <option value="buy">Buy now</option>
+            <option value="invest">Invest</option>
+        </select>
+    </div>
+   
+    <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff;">Submit Quiz</button>
+</form>
+{% endblock %}

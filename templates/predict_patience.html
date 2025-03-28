@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Predict Patience{% endblock %}
+
+{% block content %}
+<h2 style="color: #007bff;">Predict Patience</h2>
+{% if error %}
+<div class="alert alert-danger" style="background-color: #ffcccc; border-color: #ff0000; color: #ff0000;">{{ error }}</div>
+{% endif %}
+{% if patience_index is not none %}
+<div class="alert alert-success" style="background-color: #ffff00; border-color: #ffff00; color: #000000;">
+    User {{user_name}} with User ID  {{ user_id }} predicted patience index: 
+    {% if patience_index is number %}
+        {{ patience_index|round(2) }}
+    {% else %}
+        {{ patience_index }}
+    {% endif %}
+</div>
+{% endif %}
+<form method="POST">
+    <div class="mb-3">
+        <label for="user_id" class="form-label" style="color: #007bff;">User ID</label>
+        <input type="number" class="form-control" id="user_id" name="user_id" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="background-color: #007bff; border-color: #007bff;">Predict Patience</button>
+</form>
+{% endblock %}

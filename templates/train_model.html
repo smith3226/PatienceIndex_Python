@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Train Model{% endblock %}
+
+{% block content %}
+<h2>Train Model</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+{% if success %}
+<div class="alert alert-success">{{ success }}</div>
+{% endif %}
+<p>Click the button below to train the patience index model.</p>
+<a href="{{ url_for('train_model') }}" class="btn btn-primary">Train Model</a>
+{% endblock %}
