@@ -250,7 +250,6 @@ def train_model():
 def predict_patience():
     if request.method == 'POST':
         user_id = request.form.get('user_id')
-        #user_name = request.form.get('username') #REMOVE THIS LINE
 
         if not user_id:
             return render_template('predict_patience.html', error="User ID is required")
@@ -269,8 +268,7 @@ def predict_patience():
             if user is None:
                 return render_template('predict_patience.html', error="User not found")
 
-            user_name = user['username']  # Extract username from the database result
-            # GET USERNAME FROM DATABASE
+            user_name = user['username'] 
 
 
             cursor.execute("""
@@ -305,156 +303,3 @@ def predict_patience():
 
 if __name__ == '__main__':
     app.run(debug=True)
-# @app.route('/')
-# def home():
-#     return "Welcome to Flip and Floss!"
-
-
-# @app.route('/create_user', methods=['POST'])
-# def create_user():
-#     data = request.json
-#     username = data.get('username')
-#     age = data.get('age')
-
-#     if not username or not age:
-#         return jsonify({"error": "Username and age are required"}), 400
-
-#     conn = get_db_connection()
-#     if conn is None:
-#         return jsonify({"error": "Database connection failed"}), 500
-
-#     try:
-#         cursor = conn.cursor()
-#         cursor.execute("INSERT INTO users (username, age) VALUES (%s, %s)", (username, age))
-#         conn.commit()
-#         return jsonify({"message": "User created successfully", "user_id": cursor.lastrowid}), 201
-#     except Error as e:
-#         return jsonify({"error": str(e)}), 500
-#     finally:
-#         if conn.is_connected():
-#             cursor.close()
-#             conn.close()
-
-# @app.route('/submit_quiz', methods=['POST'])
-# def submit_quiz():
-#     data = request.json
-#     user_id = data.get('user_id')
-#     responses = data.get('responses')
-
-#     if not user_id or not responses:
-#         return jsonify({"error": "User ID and responses are required"}), 400
-
-#     conn = get_db_connection()
-#     if conn is None:
-#         return jsonify({"error": "Database connection failed"}), 500
-
-#     try:
-#         cursor = conn.cursor()
-#         for question_id, response in responses.items():
-#             patience_score = calculate_patience_score(int(question_id), response)
-#             cursor.execute("""
-#             INSERT INTO quiz_responses (user_id, question_id, response, patience_score)
-#             VALUES (%s, %s, %s, %s)
-#             """, (user_id, question_id, response, patience_score))
-#         conn.commit()
-#         return jsonify({"message": "Quiz submitted successfully"}), 200
-#     except Error as e:
-#         return jsonify({"error": str(e)}), 500
-#     finally:
-#         if conn.is_connected():
-#             cursor.close()
-#             conn.close()
-
-# def calculate_patience_score(question_id, response):
-#     if question_id == 1:
-#         return 10 if response == "wait" else 5
-#     elif question_id == 2:
-#         return 10 if response == "streak" else 5
-#     elif question_id == 3:
-#         return 10 if response == "invest" else 5
-#     return 0
-
-# @app.route('/train_model', methods=['GET'])
-# def train_model():
-#     conn = get_db_connection()
-#     if conn is None:
-#         return jsonify({"error": "Database connection failed"}), 500
-
-#     try:
-#         query = """
-#         SELECT user_id, question_id, response, patience_score
-#         FROM quiz_responses
-#         """
-#         df = pd.read_sql(query, conn)
-        
-#         if df.empty:
-#             return jsonify({"error": "No data available to train the model"}), 400
-        
-#         le = LabelEncoder()
-#         df['response_encoded'] = le.fit_transform(df['response'])
-        
-#         X = df[['user_id', 'question_id', 'response_encoded']]
-#         y = df['patience_score']
-        
-#         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
-#         model = RandomForestRegressor(n_estimators=100, random_state=42)
-#         model.fit(X_train, y_train)
-        
-#         joblib.dump(model, 'patience_model.joblib')
-#         joblib.dump(le, 'label_encoder.joblib')
-        
-#         return jsonify({"message": "Model trained successfully"}), 200
-#     except Error as e:
-#         return jsonify({"error": str(e)}), 500
-#     finally:
-#         if conn.is_connected():
-#             conn.close()
-
-# @app.route('/predict_patience', methods=['POST'])
-# def predict_patience():
-#     data = request.json
-#     user_id = data.get('user_id')
-
-#     if not user_id:
-#         return jsonify({"error": "User ID is required"}), 400
-
-#     conn = get_db_connection()
-#     if conn is None:
-#         return jsonify({"error": "Database connection failed"}), 500
-
-#     try:
-#         cursor = conn.cursor(dictionary=True)
-#         cursor.execute("""
-#         SELECT question_id, response
-#         FROM quiz_responses
-#         WHERE user_id = %s
-#         """, (user_id,))
-#         user_responses = cursor.fetchall()
-
-#         if not user_responses:
-#             return jsonify({"error": "No quiz data found for this user"}), 404
-
-#         model = joblib.load('patience_model.joblib')
-#         le = joblib.load('label_encoder.joblib')
-
-#         X_pred = pd.DataFrame([(user_id, r['question_id'], le.transform([r['response']])[0]) 
-#                                for r in user_responses],
-#                               columns=['user_id', 'question_id', 'response_encoded'])
-
-#         patience_scores = model.predict(X_pred)
-#         average_patience_score = patience_scores.mean()
-
-#         return jsonify({"user_id": user_id, "predicted_patience_index": average_patience_score}), 200
-#     except Error as e:
-#         return jsonify({"error": str(e)}), 500
-#     finally:
-#         if conn.is_connected():
-#             cursor.close()
-#             conn.close()
-
-# if __name__ == '__main__':
-#     drop_all_tables()
-#     create_tables()
-#     insert_initial_questions()
-#     app.run(debug=True)
